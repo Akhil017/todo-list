@@ -1,12 +1,12 @@
-import React from "react";
+
 import "./todo-item.css";
 import { Icons } from "../icons";
 
-function TodoItem() {
+function TodoItem({task}) {
   return (
     <div className="todo_item">
       <Icons.minus />
-      <p>{"TodoItem"}</p>
+      <p>{task}</p>
       <Icons.plus />
     </div>
   );
