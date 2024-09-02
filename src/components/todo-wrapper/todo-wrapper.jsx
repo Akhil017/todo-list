@@ -3,7 +3,7 @@ import { Icons } from "../icons";
 import TodoItem from "../todo-item";
 import "./todo-wrapper.css";
 
-function TodoStatusWrapper({ title, statusType, todos, handleChangeStatus }) {
+function TodoStatusWrapper({ title, statusType, todos, handleChangeStatus, handleChangePriority }) {
   const showLeftArrow =
     (statusType === STATUS.IN_PROGRESS || statusType === STATUS.DONE) &&
     todos.length > 0;
@@ -18,7 +18,7 @@ function TodoStatusWrapper({ title, statusType, todos, handleChangeStatus }) {
         {todos.map((todo) => (
           <div key={todo.id} className="todo_item_wrapper">
             {showLeftArrow && <Icons.left onClick={() => handleChangeStatus(todo.id, todo.status - 1)}/>}
-            <TodoItem task={todo.task} />
+            <TodoItem todo={todo} handleChangePriority={handleChangePriority}/>
             {showRightArrow &&<Icons.right onClick={() =>  handleChangeStatus(todo.id, todo.status + 1)}/>}
           </div>
         ))}
