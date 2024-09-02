@@ -2,10 +2,27 @@ import { useState } from "react";
 import TodoStatusWrapper from "../todo-wrapper/todo-wrapper";
 import "./todo-list.css";
 import { PRIORITY, STATUS } from "../constants";
+import { useEffect } from "react";
+
+const TODO_KEY = "todo_list";
 
 function TodoList() {
-  const [todoList, setTodoList] = useState([]);
+  // getting data from localstorage if any
+  let savedTodos = [];
+  const temp = localStorage.getItem(TODO_KEY);
+
+  if (temp) {
+    savedTodos = JSON.parse(temp);
+  }
+
+  const [todoList, setTodoList] = useState(savedTodos);
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (todoList.length) {
+      localStorage.setItem(TODO_KEY, JSON.stringify(todoList));
+    }
+  }, [todoList]);
 
   const handleAddTodo = () => {
     const todo = {
