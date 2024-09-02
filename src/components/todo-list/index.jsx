@@ -1,32 +1,32 @@
-import  { useState } from "react";
+import { useState } from "react";
 import TodoStatusWrapper from "../todo-wrapper/todo-wrapper";
 import "./todo-list.css";
-
-const STATUS = {
-  "TODO":0,
-   "IN_PROGRESS":1,
-   "DONE":2,
-};
+import { STATUS } from "../constants";
 
 function TodoList() {
   const [todoList, setTodoList] = useState([]);
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState("");
 
   const handleAddTodo = () => {
     const todo = {
       id: Date.now(),
       task: value,
-      status: STATUS.TODO
+      status: STATUS.TODO,
     };
     setTodoList((prev) => [...prev, todo]);
-    setValue("")
+    setValue("");
   };
 
   const handleIncreasePriority = () => {};
   const handleDecreasePriority = () => {};
 
-  const handleMoveTodoToRight = () => {};
-  const handleMoveRodoToLefr = () => {};
+  const handleChangeStatus = (id, status) => {
+    console.log({id, status})
+    const updatedList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, status } : todo
+    );
+    setTodoList(updatedList);
+  };
 
   const statusTodo = todoList.filter((todo) => todo.status === 0);
   const statusInprogress = todoList.filter((todo) => todo.status === 1);
@@ -34,12 +34,27 @@ function TodoList() {
 
   return (
     <div className="todo_list">
-      <TodoStatusWrapper title="Todo" todos={statusTodo} />
-      <TodoStatusWrapper title="Inprogress" todos={statusInprogress} />
-      <TodoStatusWrapper title="Done" todos={statusDone} />
+      <TodoStatusWrapper
+        title="Todo"
+        todos={statusTodo}
+        statusType={STATUS.TODO}
+        handleChangeStatus={handleChangeStatus}
+      />
+      <TodoStatusWrapper
+        title="Inprogress"
+        todos={statusInprogress}
+        statusType={STATUS.IN_PROGRESS}
+        handleChangeStatus={handleChangeStatus}
+      />
+      <TodoStatusWrapper
+        title="Done"
+        todos={statusDone}
+        statusType={STATUS.DONE}
+        handleChangeStatus={handleChangeStatus}
+      />
 
       <div className="todo_input_wrapper">
-        <input value={value} onChange={(e) => setValue(e.target.value)}/>
+        <input value={value} onChange={(e) => setValue(e.target.value)} />
         <button onClick={handleAddTodo}>Add Todo</button>
       </div>
     </div>
